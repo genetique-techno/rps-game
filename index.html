@@ -1,46 +1,59 @@
 <!DOCTYPE html>
 <html ng-app="rps-game">
-	<head>
-		<link rel="stylesheet" type="text/css" href="style.css" />
-		<script type="text/javascript" src="angular.min.js"></script>
-		<script type="text/javascript" src="app.js"></script>
-	</head>
-	<body ng-controller='GameController as game'>
-
-
-		<section class='start-page' ng-show='game.isViewStage("start-page")'>
-			<h1>Playing Against: {{game.opponent.name}}</h1>
-			<button ng-click='game.startGame()'>START MATCH</button>
-		</section>
-
-		<section class='move-page' ng-show='game.isViewStage("move-page")'>
-			<h1>LOCK IN YOUR MOVE!</h1>
-			<div>
-				<div class='img-container' ng-click='game.playAction("rock")'><img src='img/rock.png' /></div>
-				<div class='img-container' ng-click='game.playAction("paper")'><img src='img/paper.jpg' /></div>
-				<div class='img-container' ng-click='game.playAction("scissors")'><img src='img/scissors.jpg' /></div>
-			</div>
-		</section>
-		
-		<section class='play-page' ng-show='game.isViewStage("play-page")'>
-			<h1>{{game.you.name}} played: {{game.you.move}}</h1>
-			<h1>-------------------</h1>			
-			<h1>{{game.opponent.name}} played: {{game.opponent.move}}</h1>
-			<h2 class='overlay_text' ng-show='game.displayTie' ng-click='game.playAgain()'>You Tied!</h2>
-			<h2 class='overlay_clear' ng-show='!game.displayTie' ng-click='game.callView("results-page")'></h2>
-		</section>
-			
-		<section class='results-page' ng-show='game.isViewStage("results-page")'>
-			<h1 ng-show='game.won'>YOU WON!</h1>
-			<h1 ng-show='!game.won'>{{ game.opponent.name | uppercase}} WON!</h1>
-			<div class='tallytable'>
-				<p>YOU WON: {{game.you.wins}}</p>
-				<p>{{ game.opponent.name | uppercase}} WON: {{game.opponent.wins}}</p>
-				<p>OUT OF: {{game.totalplays}}</p>
-				<button ng-click='game.playAgain()'>Play again</button>
-				<button ng-click='game.quitMatch()'>Quit</button>
-			</div>
-		</section>
-	
-	</body>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body ng-controller="GameController as game" class="bg-success">
+    <!-- Start-page is where you click the button to start the game-->
+    <section ng-show="game.isViewStage('start-page')" class="start-page">
+      <div class="container">
+        <div class="row">
+          <h1 class="text-center">Playing Against: {{game.opponent.name}}</h1>
+          <button ng-click="game.startGame()" class="btn-lg btn-primary center-block">START MATCH</button>
+        </div>
+      </div>
+    </section>
+    <!-- Move-page is the page where you pick your Move-->
+    <section ng-show="game.isViewStage('move-page')" class="move-page">
+      <div class="container">
+        <h1 class="text-center">LOCK IN YOUR MOVE!</h1>
+        <div class="row"><img src="img/rock.png" ng-click="game.playAction('rock')" class="img-responsive center-block"></div>
+        <div class="row"><img src="img/paper.jpg" ng-click="game.playAction('paper')" class="img-responsive center-block"></div>
+        <div class="row"><img src="img/scissors.jpg" ng-click="game.playAction('scissors')" class="img-responsive center-block"></div>
+      </div>
+    </section>
+    <!-- Play-page shows the move you play and your opponents move -->
+    <section ng-show="game-isViewStage('play-page')" class="play-page">
+      <div class="container">
+        <h1 class="text-center">{{game.you.name}} played: {{game.you.move}}</h1>
+        <h1 class="text-center">------VS------</h1>
+        <h1 class="text-center">{{game.opponent.name}} played: {{game.opponent.move}}</h1>
+        <!-- This is the overlay for winning or tying-->
+        <h2 ng-show="game.displayTie" ng-click="game.playAgain()" class="overlay_text"></h2>
+        <h2 ng-show="!game.displayTie" ng-click="game.callView('results-page')" class="overlay_clear"></h2>
+      </div>
+    </section>
+    <!-- Results-page shows who won again, and then tallies up the results-->
+    <section ng-show="game.isViewStage('results-page')" class="results-page">
+      <div class="container">
+        <div class="row">
+          <h1 ng-show="game.won" class="text-center">YOU WON!</h1>
+          <h1 ng-show="!game.won" class="text-center">{{ game.opponent.name | uppercase}} WON!</h1>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 text-right"><span>YOU WON:</span><span>{{game.opponent.name | uppercase}} WON:</span><span>OUT OF:</span></div>
+          <div class="col-xs-6 text-left"><span>{{game.you.wish}}</span><span>{{game.opponent.wins}}</span><span>{{game.totalplays}}</span></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 center-block">
+            <button ng-click="game.playAgain()" class="btn-lg btn-primary">Play Again</button>
+            <button ng-click="game.quitMatch()" class="btn-lg btn-danger">Quit </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

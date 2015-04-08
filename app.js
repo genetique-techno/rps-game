@@ -59,6 +59,7 @@
 					if (this.you.move === 'paper') {this.won = false; this.opponent.wins += 1;};
 					break;
 			}
+			this.totalplays += 1;
 			this.callView('play-page');
 
 

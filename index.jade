@@ -1,0 +1,61 @@
+doctype html
+html(ng-app='rps-game')
+	head
+		link(rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+		link(rel='stylesheet' href='style.css')
+		script(src='angular.min.js')
+		script(src='app.js')
+
+	body.bg-success(ng-controller='GameController as game')
+
+		// Start-page is where you click the button to start the game
+		section.start-page(ng-show="game.isViewStage('start-page')")
+			.container
+				.row
+					h1.text-center Playing Against: {{game.opponent.name}}
+					button.btn-lg.btn-primary.center-block(ng-click='game.startGame()') START MATCH
+
+		// Move-page is the page where you pick your Move
+		section.move-page(ng-show="game.isViewStage('move-page')")
+			.container
+				h1.text-center LOCK IN YOUR MOVE!
+				.row
+					img.img-responsive.center-block(src='img/rock.png' ng-click="game.playAction('rock')")
+				.row
+					img.img-responsive.center-block(src='img/paper.jpg' ng-click="game.playAction('paper')")
+				.row
+					img.img-responsive.center-block(src='img/scissors.jpg' ng-click="game.playAction('scissors')")
+
+		// Play-page shows the move you play and your opponents move 
+		section.play-page(ng-show="game-isViewStage('play-page')")
+			.container
+				h1.text-center {{game.you.name}} played: {{game.you.move}}
+				h1.text-center ------VS------
+				h1.text-center {{game.opponent.name}} played: {{game.opponent.move}}
+				// This is the overlay for winning or tying
+				h2.overlay_text(ng-show='game.displayTie' ng-click='game.playAgain()')
+				h2.overlay_clear(ng-show='!game.displayTie' ng-click="game.callView('results-page')")
+
+		// Results-page shows who won again, and then tallies up the results
+		section.results-page(ng-show="game.isViewStage('results-page')")
+			.container
+				.row
+					h1.text-center(ng-show='game.won') YOU WON!
+					h1.text-center(ng-show='!game.won') {{ game.opponent.name | uppercase}} WON!
+				.row
+					.col-xs-6.text-right
+						span YOU WON:
+						span {{game.opponent.name | uppercase}} WON:
+						span OUT OF:
+					.col-xs-6.text-left
+						span {{game.you.wish}}
+						span {{game.opponent.wins}}
+						span {{game.totalplays}}
+				.row
+					.col-xs-12.center-block
+						button.btn-lg.btn-primary(ng-click='game.playAgain()') Play Again
+						button.btn-lg.btn-danger(ng-click='game.quitMatch()') Quit 
+
+
+
+

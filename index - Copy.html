@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="rps-game">
+	<head>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+		<link rel='stylesheet' href='style.css' >
+		<script type="text/javascript" src="angular.min.js"></script>
+		<script type="text/javascript" src="app.js"></script>
+	</head>
+	<body class='bg-success' ng-controller='GameController as game'>
+
+
+		<section class='start-page' ng-show='game.isViewStage("start-page")'>
+			<div class="container">
+				<div class="row">
+					<h1 class='text-center'>Playing Against: {{game.opponent.name}}</h1>
+					<button class='btn-lg btn-primary center-block' ng-click='game.startGame()'>START MATCH</button>
+					<div class="row col-md-d"></div>
+				</div>
+
+			</div>
+		</section>
+
+
+
+		<section class='move-page' ng-show='game.isViewStage("move-page")'>
+			<div class="container">
+				<h1 class='text-center'>LOCK IN YOUR MOVE!</h1>
+				<div class='row' >
+					<img class='img-responsive center-block' src='img/rock.png' ng-click='game.playAction("rock")' />
+				</div>
+				<div class="row">
+					<img class='img-responsive center-block' src='img/paper.jpg' ng-click='game.playAction("paper")' />
+				</div>
+				<div class="row">
+					<img class='img-responsive center-block' src='img/scissors.jpg' ng-click='game.playAction("scissors")' />
+				</div>
+
+			</div>
+
+		</section>
+		
+
+
+
+
+		<section class='play-page' ng-show='game.isViewStage("play-page")'>
+			<div class="container">
+				<h1>{{game.you.name}} played: {{game.you.move}}</h1>
+				<h1>-------------------</h1>			
+				<h1>{{game.opponent.name}} played: {{game.opponent.move}}</h1>
+				<h2 class='overlay_text' ng-show='game.displayTie' ng-click='game.playAgain()'>You Tied!</h2>
+				<h2 class='overlay_clear' ng-show='!game.displayTie' ng-click='game.callView("results-page")'></h2>
+			</div>
+		</section>
+			
+		<section class='results-page' ng-show='game.isViewStage("results-page")'>
+			<div class="container">
+				<div class="row">
+					<h1 class='text-center' ng-show='game.won'>YOU WON!</h1>
+					<h1 class='text-center' ng-show='!game.won'>{{ game.opponent.name | uppercase}} WON!</h1>
+				</div>
+				<div class="row col-md-2"></div>
+				<div class="row col-md-8">
+
+					<dl class="dl-horizontal">
+						<dt><span class='text-right'>YOU WON:</span></dt>
+						<dd><span class="text-left">{{game.you.wins}}</span></dd>
+					
+						<dt><span class='text-right'>{{ game.opponent.name | uppercase}} WON:</span></dt> 
+						<dd><span class='text-left'>{{game.opponent.wins}}</span></dd>
+
+						<dt><span class='text-right'>OUT OF:</span></dt>
+						<dd><span class='text-left'>{{game.totalplays}}</span></dd>
+					</dl>
+				</div>
+				<button class='btn-lg btn-primary' ng-click='game.playAgain()'>Play again</button>
+				<button class='btn-lg btn-danger' ng-click='game.quitMatch()'>Quit</button>
+				<div class="row col-md-2"></div>
+			</div>
+		</section>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	</body>
+</html>
+
+<div class="row">
+	
+</div>
